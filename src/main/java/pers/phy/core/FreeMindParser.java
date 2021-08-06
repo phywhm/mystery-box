@@ -30,21 +30,20 @@ public class FreeMindParser {
     }
 
     public static String createDir(NodeList list, String dir) {
-        String result = null;
+        String current = null;
         for (int i = 0; i < list.getLength(); i++) {
             Node tmp = list.item(i);
             if (!"node".equalsIgnoreCase(tmp.getNodeName())) {
                 continue;
             }
             Node text = tmp.getAttributes().getNamedItem("TEXT");
-            String current = dir + "/" + text.getNodeValue();
+            current = dir + "/" + text.getNodeValue();
             current = current.replace("\\/", "/");
-            result = current;
             new File(current).mkdirs();
             if (tmp.hasChildNodes()) {
                 createDir(tmp.getChildNodes(), current);
             }
         }
-        return result;
+        return current;
     }
 }
