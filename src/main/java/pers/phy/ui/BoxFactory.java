@@ -43,9 +43,11 @@ public class BoxFactory {
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
+        JPanel panel4 = new JPanel();
         panel.add(panel1);
         panel.add(panel2);
         panel.add(panel3);
+        panel.add(panel4);
         final JFileChooser file1 = new JFileChooser();
         file1.setFileSelectionMode(JFileChooser.FILES_ONLY);
         file1.setFileFilter(new FileFilter() {
@@ -121,5 +123,7 @@ public class BoxFactory {
             }
         });
         panel3.add(ok);
+        JLabel labelF = new JLabel("Copyright 2021【作】您了伸手 all right reserved");
+        panel4.add(labelF);
     }
 }
