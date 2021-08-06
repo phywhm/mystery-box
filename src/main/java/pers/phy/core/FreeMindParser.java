@@ -33,13 +33,16 @@ public class FreeMindParser {
         String result = null;
         for (int i = 0; i < list.getLength(); i++) {
             Node tmp = list.item(i);
+            if (!"node".equalsIgnoreCase(tmp.getNodeName())) {
+                continue;
+            }
             Node text = tmp.getAttributes().getNamedItem("TEXT");
             String current = dir + "/" + text.getNodeValue();
+            current = current.replace("\\/", "/");
             result = current;
+            new File(current).mkdirs();
             if (tmp.hasChildNodes()) {
                 createDir(tmp.getChildNodes(), current);
-            } else {
-                new File(current).mkdirs();
             }
         }
         return result;
