@@ -23,7 +23,7 @@ public class FreeMindParser {
             tarDir = System.getProperty("user.dir");
         }
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document dom = builder.parse(mmFile);
+        Document dom = builder.parse(new File(mmFile));
         NodeList list = dom.getElementsByTagName("map");
         Node node = list.item(0);
         return createDir(node.getChildNodes(), tarDir);
