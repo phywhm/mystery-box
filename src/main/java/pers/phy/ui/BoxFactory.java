@@ -27,11 +27,11 @@ public class BoxFactory {
 
     private static void startUp() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        JFrame frame = new JFrame("魔盒生成机");
-        frame.setSize(800, 600);
+        JFrame frame = new JFrame("盲盒生成机");
+        frame.setSize(760, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(screen.width / 2 - 400, screen.height / 2 - 300);
+        frame.setLocation(screen.width / 2 - 380, screen.height / 2 - 100);
         JPanel panel = new JPanel();
         frame.add(panel);
         buildPanel(panel);
@@ -39,6 +39,13 @@ public class BoxFactory {
     }
 
     private static void buildPanel(final JPanel panel) {
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
         final JFileChooser file1 = new JFileChooser();
         file1.setFileSelectionMode(JFileChooser.FILES_ONLY);
         file1.setFileFilter(new FileFilter() {
@@ -57,11 +64,11 @@ public class BoxFactory {
         });
         final JFileChooser file2 = new JFileChooser();
         file2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        JLabel label1 = new JLabel("请选择脑图文件（*.mm）");
-        panel.add(label1);
-        final JTextField field1 = new JTextField(System.getProperty("user.dir"), 30);
-        panel.add(field1);
-        JButton cButton1 = new JButton("...");
+        JLabel label1 = new JLabel("请选择脑图文件（*.mm）", null, SwingConstants.LEFT);
+        panel1.add(label1);
+        final JTextField field1 = new JTextField(System.getProperty("user.dir"), 40);
+        panel1.add(field1);
+        JButton cButton1 = new JButton("选择文件");
         cButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,13 +82,13 @@ public class BoxFactory {
                 }
             }
         });
-        panel.add(cButton1);
-        JLabel label2 = new JLabel("请选择盲盒输出目录");
-        panel.add(label2);
-        final JTextField field2 = new JTextField(System.getProperty("user.dir"), 30);
-        panel.add(field2);
-        JButton cButton2 = new JButton("...");
-        panel.add(cButton2);
+        panel1.add(cButton1);
+        JLabel label2 = new JLabel("         请选择盲盒输出目录", null, SwingConstants.LEFT);
+        panel2.add(label2);
+        final JTextField field2 = new JTextField(System.getProperty("user.dir"), 40);
+        panel2.add(field2);
+        JButton cButton2 = new JButton("选择目录");
+        panel2.add(cButton2);
         cButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,13 +112,14 @@ public class BoxFactory {
                     return;
                 }
                 try {
-                    FreeMindParser.parse(field1.getText(), field2.getText());
-                    JOptionPane.showMessageDialog(panel, "魔盒已生成");
+                    String dir = FreeMindParser.parse(field1.getText(), field2.getText());
+                    Desktop.getDesktop().open(new File(dir));
+                    JOptionPane.showMessageDialog(panel, "盲盒已生成");
                 } catch (Exception ignore) {
-                    JOptionPane.showMessageDialog(panel, "魔盒生成失败" + ignore.getMessage());
+                    JOptionPane.showMessageDialog(panel, "盲盒生成失败" + ignore.getMessage());
                 }
             }
         });
-        panel.add(ok);
+        panel3.add(ok);
     }
 }

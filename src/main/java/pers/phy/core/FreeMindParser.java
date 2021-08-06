@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class FreeMindParser {
 
-    public static void parse(String mmFile, String tarDir) throws ParserConfigurationException, IOException, SAXException {
+    public static String parse(String mmFile, String tarDir) throws ParserConfigurationException, IOException, SAXException {
         if (tarDir == null || "".equals(tarDir.trim())) {
             tarDir = System.getProperty("user.dir");
         }
@@ -26,19 +26,22 @@ public class FreeMindParser {
         Document dom = builder.parse(mmFile);
         NodeList list = dom.getElementsByTagName("map");
         Node node = list.item(0);
-        createDir(node.getChildNodes(), tarDir);
+        return createDir(node.getChildNodes(), tarDir);
     }
 
-    public static void createDir(NodeList list, String dir) {
+    public static String createDir(NodeList list, String dir) {
+        String result = null;
         for (int i = 0; i < list.getLength(); i++) {
             Node tmp = list.item(i);
             Node text = tmp.getAttributes().getNamedItem("TEXT");
             String current = dir + "/" + text.getNodeValue();
+            result = current;
             if (tmp.hasChildNodes()) {
                 createDir(tmp.getChildNodes(), current);
             } else {
                 new File(current).mkdirs();
             }
         }
+        return result;
     }
 }
